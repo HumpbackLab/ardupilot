@@ -33,6 +33,9 @@
 #include "AP_InertialSensor_SITL.h"
 #include "AP_InertialSensor_BMI055.h"
 #include "AP_InertialSensor_BMI088.h"
+#if CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_POWERFIN
+#include "AP_InertialSensor_SC7U22IIO.h"
+#endif
 #include "AP_InertialSensor_Invensensev2.h"
 #include "AP_InertialSensor_ADIS1647x.h"
 #include "AP_InertialSensor_ExternalAHRS.h"

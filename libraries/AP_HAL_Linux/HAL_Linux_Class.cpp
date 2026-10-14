@@ -17,6 +17,7 @@
 #include "AnalogIn_ADS1115.h"
 #include "AnalogIn_IIO.h"
 #include "AnalogIn_Navio2.h"
+#include "AnalogIn_PowerFin.h"
 #include "GPIO.h"
 #include "I2CDevice.h"
 #include "OpticalFlow_Onboard.h"
@@ -35,6 +36,7 @@
 #include "RCOutput_Disco.h"
 #include "RCOutput_Multi.h"
 #include "RCOutput_PCA9685.h"
+#include "RCOutput_PowerFin.h"
 #include "RCOutput_PRU.h"
 #include "RCOutput_Sysfs.h"
 #include "RCOutput_ZYNQ.h"
@@ -122,6 +124,8 @@ static AnalogIn_IIO analogIn;
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIO2 || \
       CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_EDGE
 static AnalogIn_Navio2 analogIn;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_POWERFIN
+static AnalogIn_PowerFin analogIn;
 #else
 static Empty::AnalogIn analogIn;
 #endif
@@ -174,6 +178,8 @@ static RCInput_Multi rcinDriver{2, NEW_NOTHROW RCInput_RCProtocol("/dev/uart-sbu
 static RCInput_SoloLink rcinDriver;
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_PILOTPI
 static RCInput_RCProtocol rcinDriver{"/dev/ttyAMA0", NULL};
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_POWERFIN
+static RCInput_RCProtocol rcinDriver{nullptr, nullptr};
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_VNAV || \
       CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIGATOR || \
       CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIO2 || \
@@ -235,6 +241,8 @@ static RCOutput_Multi rcoutDriver{2, &rcoutPcaDriver, &rcoutSysfsDriver};
 static RCOutput_Sysfs rcoutDriver(0, 0, 7);
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_RPI
 static RCOutput_RPI rcoutDriver;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_POWERFIN
+static RCOutput_PowerFin rcoutDriver;
 #else
 static Empty::RCOutput rcoutDriver;
 #endif
